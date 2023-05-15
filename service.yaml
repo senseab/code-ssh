@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: code-ssh
+  annotations:
+    holepunch/punch-external: 'false'
+spec:
+  selector:
+    app: code-ssh
+  ports:
+    - port: 2333
+      targetPort: ssh
+      name: ssh
+      protocol: TCP
+  type: LoadBalancer
+  ipFamilyPolicy: PreferDualStack
+  ipFamilies:
+    - IPv4
+    - IPv6

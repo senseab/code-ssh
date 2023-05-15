@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-ssh
+spec:
+  selector:
+    matchLabels:
+      app: code-ssh
+  template:
+    metadata:
+      labels:
+        app: code-ssh
+    spec:
+      volumes:
+        - name: data
+          hostPath:
+            path: /data/code-server
+        - name: config
+          secret:
+            secretName: code-ssh-host-key
+            optional: false
+      containers:
+        - name: code-ssh
+          image: linuxserver/openssh-server:latest
+          volumeMounts:
+            - mountPath: /home/coder
+              name: data
+            - mountPath: /etc/dropbear
+              name: config
+              readOnly: true
+          resources:
+            limits:
+              cpu: 500m
+              memory: 4Gi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          readinessProbe:
+            tcpSocket:
+              port: ssh
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          livenessProbe:
+            tcpSocket:
+              port: ssh
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          ports:
+            - containerPort: 22
+              name: ssh
+            

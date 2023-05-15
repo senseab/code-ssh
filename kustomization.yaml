@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization.json
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - deployment.yaml
+  - service.yaml
+commonLabels:
+  app: code-ssh
+images:
+  - name: linuxserver/openssh-server
+    newName: tonychee7000/code-ssh
+    newTag: '20220814-1'
+secretGenerator:
+  - name: code-ssh-host-key
+    files:
+      - config/dropbear_ed25519_host_key
