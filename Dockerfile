@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.19.1
 RUN apk add --no-cache bash zsh dropbear gcompat libstdc++ curl alpine-conf && \
     adduser -D -u 1000 -s /bin/zsh coder && \
     /sbin/setup-timezone -z Asia/Shanghai && \
