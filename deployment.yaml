@@ -15,6 +15,9 @@ spec:
         - name: data
           hostPath:
             path: /data/code-server
+        - name: nix
+          hostPath:
+            path: /data/nix
         - name: config
           secret:
             secretName: code-ssh-host-key
@@ -25,13 +28,15 @@ spec:
           volumeMounts:
             - mountPath: /home/coder
               name: data
+            - mountPath: /nix
+              name: nix
             - mountPath: /etc/dropbear
               name: config
               readOnly: true
           resources:
             limits:
-              cpu: 500m
-              memory: 4Gi
+              cpu: '8'
+              memory: 16Gi
             requests:
               cpu: 100m
               memory: 256Mi

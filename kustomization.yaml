@@ -10,7 +10,7 @@ commonLabels:
 images:
   - name: linuxserver/openssh-server
     newName: tonychee7000/code-ssh
-    newTag: '20220814-1'
+    newTag: '20240204-1'
 secretGenerator:
   - name: code-ssh-host-key
     files:
