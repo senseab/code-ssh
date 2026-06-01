@@ -1,8 +1,7 @@
-FROM debian:sid-slim
-RUN apt update && apt install -y dropbear ca-certificates && \
-    useradd -u 1000 -s /bin/bash coder && apt clean && \
-    rm -rf /var/lib/apt/lists/* &&\
+#FROM debian:sid-slim
+FROM alpine:edge
+RUN apk add --no-cache dropbear ca-certificates tzdata && \
     ln -sf /usr/share/zoneinfo/PRC /etc/localtime && \
-    echo 'Asia/Shanghai' > /etc/timezone
+    adduser -u 1000 -D coder
 
 CMD [ "/usr/sbin/dropbear", "-swEF" ]
