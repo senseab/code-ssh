@@ -1,6 +1,8 @@
-FROM alpine:edge
-RUN apk add --no-cache openssh-server openssh-sftp-server ca-certificates tzdata gcompat && \
+FROM debian:sid-slim
+RUN apt update && apt install -y openssh-server ca-certificates && \
+    useradd -u 1000 -s /bin/bash coder && apt clean && \
+    rm -rf /var/lib/apt/lists/* &&\
     ln -sf /usr/share/zoneinfo/PRC /etc/localtime && \
-    adduser -u 1000 -D coder && passwd -u coder
+    echo 'Asia/Shanghai' > /etc/timezone
 
 CMD [ "/usr/sbin/sshd", "-De" ]
